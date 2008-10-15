@@ -1,5 +1,6 @@
-#coding=utf-8
 #!/usr/bin/env python
+#coding=utf-8
+
 
 import Image, ImageFont
 from settings import MEDIA_ROOT

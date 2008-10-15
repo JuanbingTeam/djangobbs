@@ -1,5 +1,6 @@
-#coding=utf-8
 #!/usr/bin/env python
+#coding=utf-8
+
 
 from django.conf.urls.defaults import *
 from django.contrib import admin
@@ -9,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^/', 'index'),
     (r'^admin/(.*)', admin.site.root),
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
      
     (r'^accounts/', include('accounts.urls')),
     # (r'^addresses/(.*)', include('addresses.urls')),

@@ -1,0 +1,12 @@
+需要安装：
+python, django, PIL（用于显示验证码）
+
+1. download from svn server
+svn checkout http://djangobbs.googlecode.com/svn/trunk/
+
+2. chdir to bbs 
+
+3. manage.py syncdb
+
+4. manage.py runserver
+
