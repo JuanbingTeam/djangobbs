@@ -1,5 +1,6 @@
-#coding=utf-8
 #!/usr/bin/env python
+#coding=utf-8
+
 
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
