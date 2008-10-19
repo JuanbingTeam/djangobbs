@@ -15,7 +15,7 @@ class MimeType(models.Model):
     magic_number = models.CharField(max_length=20, blank=True, default="") # 魔数，指文件开头的几个固定不变的字节，用于验证上传文件的真实性。 
 
     def __unicode__(self):
-        return self.major + u"/" + self.minor
+        return self.extname + u": " +self.major + u"/" + self.minor
 admin.site.register(MimeType)
 
 class UploadResource(models.Model):
@@ -27,5 +27,13 @@ class UploadResource(models.Model):
     owner = models.ForeignKey(User)                                                     # 上传的人
     taketime = models.DateTimeField(null=True, blank=True, db_index=True)   # 如果用户上传的是照片，记录其拍摄日期
     def __unicode__(self):
-        return self.filename
+        return unicode(self.filename)
 admin.site.register(UploadResource)
+
+class IllegalFileFormat(Exception):
+    def __init__(self, filename, mimetype):
+        self.filename = filename
+        self.mimetype = mimetype
+        
+    def __unicode__(self):
+        return unicode(filename) + u" is not a valid " + unicode(mimetype) + u" file!"
