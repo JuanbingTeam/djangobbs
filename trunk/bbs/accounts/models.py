@@ -8,7 +8,8 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _T
 
 from addresses.models import Person
-from articles.models import UploadResource, Article
+from articles.models import Article
+from uploads.models import UploadResource
 
 
 class UserProfile(Person):
