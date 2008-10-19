@@ -1,79 +1,108 @@
+#!/usr/bin/env python
+#coding=utf-8
+
+
 from uploads.models import *
 from uploads.config import UPLOAD_FILE_FOLDER
+from uploads.config import MAX_THUMBNAIL_SIZE
+
 from settings import MEDIA_ROOT
 from md5 import md5
 from cStringIO import StringIO
 
 import os.path
 import time
+from datetime import datetime
 import PIL
+import uploads.exif
+import Image, ImageDraw # éœ€è¦PILæ”¯æŒ
 
 def get_ext_name(fullname):
-    """»ñÈ¡ÎÄ¼þµÄÀ©Õ¹Ãû¡££¨²»°üÀ¨.£©"""
+    """èŽ·å–æ–‡ä»¶çš„æ‰©å±•åã€‚ï¼ˆä¸åŒ…æ‹¬.ï¼‰"""
     i = fullname.find('.')
     result = ""
     if i > -1:
         result = fullname[i+1:]
     if len(result) > 10:
         result = ""
+    else:
+        result = result.lower()
     return result
 
-def getTakeTime(content):
-    """»ñÈ¡ÕÕÆ¬µÄÅÄÉãÊ±¼ä"""
+def get_take_time(content):
+    """èŽ·å–ç…§ç‰‡çš„æ‹æ‘„æ—¶é—´"""
     file = StringIO(content)
-    tag = exif.process_file(file)
+    tag = uploads.exif.process_file(file)
     file.close()
     originalTime = str(tag["EXIF DateTimeOriginal"])
-    if originalTime == None:
-        return None
-    else:
-        result = "'" + originalTime[0:4] + "/"  + originalTime[5:7] + "/" + originalTime[8:] + "'"
-        print result
-        result = time.strptime("%Y/%m/%d %H%M%S", result)
-        return result
-
-def saveFile(user, i):
-    """±£´æÉÏ´«ÎÄ¼þ²¢·µ»ØÒ»¸öUploadResource¼ÇÂ¼¡£ÐÞ¸Ä´Ëº¯ÊýÒÔÐÞ¸ÄÎÄ¼þµÄ´æ´¢¹ý³Ì"""
+    
+    if originalTime != None:
+        try:
+            result = time.strptime(originalTime, "%Y:%m:%d %H:%M:%S")
+            return datetime(result[0], result[1], result[2], result[3], result[4], result[5])
+        except ValueError, error:
+            pass
+    return None
+        
+def save_uploaded_file(user, i):
+    """ä¿å­˜ä¸Šä¼ æ–‡ä»¶å¹¶è¿”å›žä¸€ä¸ªUploadResourceè®°å½•ã€‚ä¿®æ”¹æ­¤å‡½æ•°ä»¥ä¿®æ”¹æ–‡ä»¶çš„å­˜å‚¨è¿‡ç¨‹"""
     extname = get_ext_name(i.name)
     try:
-        e.objects.get(extname__exact=extname)
+        mime = MimeType.objects.get(extname__exact=extname)
     except MimeType.DoesNotExist:
         mime = MimeType()
         mime.extname = extname
         mime.minor = extname
         mime.save()
-
-    filename = strftime(UPLOAD_FILE_FOLDER)
-    filename = os.path.join(filename, i.name)
-    filename = os.path.join(MEDIA_ROOT, folder)
-    realname = filename[:]
-
-    count = 0
-    while os.path.isdir(realname):
-        realname = filename[0:-len(extname)] + str(count) + "." + extname
-
+        
     content = i.read()
-    file = open(filename, "wb")
+    if mime.magic_number != "" and not content.startswith(mime.magic_number):
+        raise IllegalFileFormat(i.name, mime)
+
+    filename = time.strftime(UPLOAD_FILE_FOLDER)
+    filename = os.path.join(filename, i.name)
+    dest = os.path.join(MEDIA_ROOT, filename)
+    
+    count = 0
+    while os.path.isfile(dest):
+        count += 1
+        dest = os.path.join(MEDIA_ROOT, filename[0:-len(extname)] + str(count) + "." + extname)
+        
+    if count > 0:
+        filename = filename[0:-len(extname)] + str(count) + "." + extname
+     
+    file = open(dest, "wb")
     file.write(content)
     file.close()
-
+    
     result = UploadResource()
     result.filename = filename
     result.mime = mime
     result.owner = user
     result.md5code = md5(content).hexdigest()
     
-    if mime.major == 'image':
-        result.taketime = getTakeTime(content)
+    if mime.major == u'image':
+        result.taketime = get_take_time(content)
+
     result.save()
-    
     return result
 
 
-def getThumbImage(id, x, y):
+def get_thumb_image(id, x, y):
+    """èŽ·å–ç¼©ç•¥å›¾"""
+    x = int(x)
+    if x > MAX_THUMBNAIL_SIZE:
+        x = MAX_THUMBNAIL_SIZE
+
+    y = int(y)
+    if y > MAX_THUMBNAIL_SIZE:
+        y = MAX_THUMBNAIL_SIZE
+
     try:
-        record = UploadResource.get(id=id)
-        record.getFile()
-    except UploadResource.DoesNotExist:
+        record = UploadResource.objects.get(id=id)
+        result = Image.open(record.filename.path)
+        result.thumbnail((x, y), Image.ANTIALIAS)
+        return result
+    except Exception, error:
         return None
 
