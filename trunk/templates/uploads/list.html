@@ -7,7 +7,7 @@
 
 <body>
 <h1 align="center">{{ user.username }} 上传的文件</h1>
-<p align="center"><a href="./?page=1&amp;page_size={{ page_size }}&amp;orders={{ orders|urlencode }}">|&lt;</a> {% for i in pages.page_range %} <a href="./?page={{ start_page }}&amp;page_size={{ page_size }}&amp;orders={{ orders|urlencode }}">{{ i }}</a> {% endfor %}<a href="./?page={{ pages.num_pages }}&amp;page_size={{ page_size }}&amp;orders={{ orders|urlencode }}">&gt;|</a></p>
+<p align="center"><a href="./?page=1&amp;page_size={{ pages. }}&amp;orders={{ orders|urlencode }}">|&lt;</a> {% for i in pages.page_range %} <a href="./?page={{ start_page }}&amp;page_size={{ page_size }}&amp;orders={{ orders|urlencode }}">{{ i }}</a> {% endfor %}<a href="./?page={{ pages.num_pages }}&amp;page_size={{ page_size }}&amp;orders={{ orders|urlencode }}">&gt;|</a></p>
 <hr />
 <p>{% for i in content %} </p>
 <ul>
