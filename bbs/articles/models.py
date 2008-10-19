@@ -5,31 +5,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
-from django.utils.translation import ugettext as _T 
+from django.utils.translation import ugettext as _T
 
-
-class MimeType(models.Model):
-    """文件类型"""
-    major = models.CharField(max_length = 20, db_index=True)    
-    minor = models.CharField(max_length = 20, db_index=True)
-    
-    def __unicode__(self):
-        return self.major + u"/" + self.minor
-    
-admin.site.register(MimeType)
-
-class UploadResource(models.Model):
-    """用户上传的文件"""
-    filename = models.CharField(max_length = 200, db_index=True)    # 文件名称、说明
-    mime = models.ForeignKey(MimeType)                              # 类型
-    md5code = models.CharField(max_length = 32, db_index=True)      # MD5号
-    birth = models.DateTimeField(auto_now_add=True, db_index=True)  # 上传日期
-    owner = models.ForeignKey(User)                                 # 上传的人
-    privileges = models.CharField(max_length = 200, blank=True, default="") # 访问权限
-    def __unicode__(self):
-        return self.filename
-admin.site.register(UploadResource)    
-    
 class Keyword(models.Model):
     """This represent keywords of papers""" 
     word = models.CharField(max_length=200, db_index=True)          # 关键词
@@ -71,7 +48,6 @@ class Folder(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, default="NULL", related_name="parent_group")
     children = models.ManyToManyField('self', blank=True, related_name="children")
     articles = models.ManyToManyField(Article, blank=True)
-    files = models.ManyToManyField(UploadResource, blank=True)
     privileges = models.CharField(max_length = 200, blank=True, default="") # 访问权限
     owner = models.ForeignKey(User)                                 # 所有人
     birth = models.DateTimeField(auto_now_add=True)                 # 创建日期
