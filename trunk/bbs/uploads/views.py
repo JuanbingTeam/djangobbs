@@ -34,21 +34,31 @@ def list_by_user(request, id):
         if files.count() == 0:
             return render_to_response('uploads/nouploads.html', data)
         else:
-            if request.REQUEST.has_key('page'):
+            try:
                 start_page = int(request.REQUEST['page'])
-            else:
+            except Exception:
                 start_page = 1
+            data['start_page']=start_page
             
-            if  request.REQUEST.has_key('pagesize'):
+            try:
                 page_size = int(request.REQUEST['page_size'])
-            else:
+            except Exception:
                 page_size = 50
-    
+            data['page_size']=page_size
+                
+            try:
+                orders = request.REQUEST['orders'] 
+            except Exception:
+                orders = "-birth"
+            data['orders']=orders
+
+            files = files.order_by(orders);
             pages = Paginator(files, page_size)
             data['pages'] = pages
-            data['content'] = pages.page(start_page)
+            data['content'] = pages.page(start_page).object_list
             return render_to_response('uploads/list.html', data)
-    except:
+    except Exception, error:
+        print error
         return HttpResponseNotFound()  
     
 
