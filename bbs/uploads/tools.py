@@ -51,7 +51,7 @@ def save_uploaded_file(user, i):
         mime.extname = extname
         mime.minor = extname
         mime.save()
-        
+
     content = i.read()
     if mime.magic_number != "" and not content.startswith(mime.magic_number):
         raise IllegalFileFormat(i.name, mime)
