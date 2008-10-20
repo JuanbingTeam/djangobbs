@@ -19,7 +19,7 @@ import Image, ImageDraw # 需要PIL支持
 
 def get_ext_name(fullname):
     """获取文件的扩展名。（不包括.）"""
-    i = fullname.find('.')
+    i = fullname.rfind('.')
     result = ""
     if i > -1:
         result = fullname[i+1:]
@@ -63,6 +63,10 @@ def save_uploaded_file(user, i):
     filename = os.path.join(filename, i.name)
     dest = os.path.join(MEDIA_ROOT, filename)
     
+    (path, name) = os.path.split(dest)
+    if not os.path.isdir(path):
+        os.makedirs(path)
+
     count = 0
     while os.path.isfile(dest):
         count += 1
@@ -79,7 +83,7 @@ def save_uploaded_file(user, i):
     result.filename = filename
     result.mime = mime
     result.owner = user
-    result.md5code = md5(content).hexdigest()
+    # result.md5code = md5(content).hexdigest() # 暂时不用。
     
     if mime.major == u'image':
         result.taketime = get_take_time(content)
