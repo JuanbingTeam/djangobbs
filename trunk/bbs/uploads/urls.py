@@ -5,7 +5,7 @@
 
 from django.conf.urls.defaults import *
 urlpatterns = patterns('uploads.views',
-    (r'^upload$', 'upload'),                    # 上传文件
+    (r'^upload/$', 'upload'),                    # 上传文件
     (r'^list/(?P<id>\d+)/$', 'list_by_user'),     # 列出用户上传的所有文件
     
     (r'^thumb/gif/(?P<id>\d+)/(?P<x>\d+).(?P<y>\d+)/$', 'get_gif_thumbnail'),    # 返回GIF格式的缩略图

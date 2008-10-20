@@ -4,11 +4,12 @@
 
 from django.conf.urls.defaults import *
 from django.contrib import admin
+from index import index
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^/', 'index'),
+    (r'^$', index),
     (r'^admin/(.*)', admin.site.root),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
      

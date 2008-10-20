@@ -34,15 +34,12 @@ def get_take_time(content):
     file = StringIO(content)
     tag = uploads.exif.process_file(file)
     file.close()
-    originalTime = str(tag["EXIF DateTimeOriginal"])
-    
-    if originalTime != None:
-        try:
-            result = time.strptime(originalTime, "%Y:%m:%d %H:%M:%S")
-            return datetime(result[0], result[1], result[2], result[3], result[4], result[5])
-        except ValueError, error:
-            pass
-    return None
+    try:
+        originalTime = tag["EXIF DateTimeOriginal"]
+        result = time.strptime(originalTime, "%Y:%m:%d %H:%M:%S")
+        return datetime(result[0], result[1], result[2], result[3], result[4], result[5])
+    except Exception:
+        return None
         
 def save_uploaded_file(user, i):
     """保存上传文件并返回一个UploadResource记录。修改此函数以修改文件的存储过程"""
