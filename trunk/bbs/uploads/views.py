@@ -119,7 +119,8 @@ def download_file(request, id):
         result = HttpResponse(mimetype = record.mime.major + u"/" + record.mime.minor)
         result.write(file.read())
         file.close()
-        filename = record.get_name()
+        filename = str(record.get_name())
+        filename = os.path.split(filename)[1]
         result["Last-Modified"]= str(record.get_time())
         result["Content-Disposition"] ="attachment;filename=" + str(filename);
         result["Content-Length"] = str(record.get_size())

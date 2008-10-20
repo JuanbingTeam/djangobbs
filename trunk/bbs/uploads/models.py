@@ -61,3 +61,37 @@ class IllegalFileFormat(Exception):
         
     def __unicode__(self):
         return unicode(filename) + u" is not a valid " + unicode(mimetype) + u" file!"
+
+PREDEFINED_MIMETYPE = (
+    ("", "application", "unknwon", ""),
+    ("txt", "text", "plain", ""),
+    ("htm", "text", "html", ""),
+    ("html", "text", "html", ""),
+    
+    ("jpg", "image", "jpeg", ""),
+    ("jpeg", "image", "jpeg", ""),
+    ("jfif", "image", "jpeg", ""),
+    ("gif", "image", "gif", ""),
+    ("png", "image", "png", ""),
+    ("bmp", "image", "bmp", ""),
+    
+    ("zip", "application", "zip", ""),
+    ("rar", "application", "rar", ""),
+)
+
+""" 每次导入该模块的时候，试图自动导入一些默认的Mime Type数据"""
+try:
+    """查找第一个，如果已经存在则认为数据已经导入，不需要处理"""    
+    MimeType.objects.get(extname=PREDEFINED_MIMETYPE[0][0])
+except MimeType.DoesNotExist:
+    """否则，依次导入数据"""
+    for i in PREDEFINED_MIMETYPE:
+        type = MimeType()
+        type.extname = i[0]
+        type.major = i[1]
+        type.minor = i[2]
+        type.magic_number = i[3]
+        type.save()
+except Exception:
+    """出错的话什么也不做"""
+    pass
