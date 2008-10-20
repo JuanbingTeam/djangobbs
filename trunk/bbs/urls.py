@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     (r'^uploads/', include('uploads.urls')),
 
     (r'^media/', include('uploads.urls')),
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': r'..\templates\media'}),                       
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': r'../templates/media'}),                       
                        
     # (r'^addresses/(.*)', include('addresses.urls')),
     # (r'^news/(.*)', include('accounts.newsurls')),
