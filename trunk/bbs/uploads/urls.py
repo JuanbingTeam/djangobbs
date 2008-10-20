@@ -12,5 +12,8 @@ urlpatterns = patterns('uploads.views',
     (r'^thumb/png/(?P<id>\d+)/(?P<x>\d+).(?P<y>\d+)/$', 'get_png_thumbnail'),    # 返回PNG格式的缩略图
     (r'^thumb/jpg/(?P<id>\d+)/(?P<x>\d+).(?P<y>\d+)/$', 'get_jpg_thumbnail'),    # 返回JPG格式的缩略图
     
+    (r'^download/(?P<id>\d+)/$', 'download_file'),    # 以附件的形式下载文件
+    (r'^file/(?P<id>\d+)/$', 'get_file'), # 直接获得文件
+    
     (r'^photo/(?P<id>\d+)/$', 'get_photo'),      # 返回带日戳的照片
 )

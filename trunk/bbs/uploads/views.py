@@ -101,6 +101,34 @@ def get_jpg_thumbnail(request, id, x, y):
         del buf
         return result
 
+def get_file(request, id):
+    try:
+        record = UploadResource.objects.get(id=id)
+        file = record.get_file()
+        result = HttpResponse(mimetype = record.mime.major + u"/" + record.mime.minor)
+        result.write(file.read())
+        file.close()
+        return result
+    except UploadResource.DoesNotExist:
+        return HttpResponseNotFound()
+
+def download_file(request, id):
+    try:
+        record = UploadResource.objects.get(id=id)
+        file = record.get_file()
+        result = HttpResponse(mimetype = record.mime.major + u"/" + record.mime.minor)
+        result.write(file.read())
+        file.close()
+        filename = record.get_name()
+        result["Last-Modified"]= str(record.get_time())
+        result["Content-Disposition"] ="attachment;filename=" + str(filename);
+        result["Content-Length"] = str(record.get_size())
+        return result
+    except UploadResource.DoesNotExist:
+        return HttpResponseNotFound()
+    
+
 def get_photo(request, id, x, y):
     # TODO
     pass
+
