@@ -16,7 +16,7 @@ class LoginForm(forms.Form):
     validation = forms.CharField(max_length=5, label=_T('Validation Code'))
 
     def clean_username(self):
-        user = accounts.tools.findUser(self.cleaned_data['username'])
+        user = accounts.tools.finduser(self.cleaned_data['username'])
         if user:
             self.cleaned_data['user'] = user
             return self.cleaned_data['username']

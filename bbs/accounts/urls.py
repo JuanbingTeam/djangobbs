@@ -6,7 +6,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('accounts.views',
     (r'^$', 'index'),               # "用户主页"
-    (r'^(?P<id>\d+)/$', 'index'),   # "用户主页"
+    (r'^(?P<id>\d+)/$', 'index'),   # "查看用户信息"
     (r'^login/', 'login'),          # "登陆"
     (r'^logout/', 'logout'),        # "登出"
     (r'^register/', 'register'),    # "注册"
