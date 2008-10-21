@@ -95,3 +95,4 @@ except MimeType.DoesNotExist:
 except Exception:
     """出错的话什么也不做"""
     pass
+
