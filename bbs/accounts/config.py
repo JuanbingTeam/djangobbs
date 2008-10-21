@@ -11,3 +11,5 @@ VALIDATE_IMAGE_FORE_GROUND = (255, 255, 255)
 VALIDATE_IMAGE_BACK_GROUND = Image.open(os.path.join(MEDIA_ROOT, "accounts/validate-code-backgroud.png"))
 #VALIDATE_IMAGE_FONT = ImageFont.truetype("arial.ttf", 18)
 VALIDATE_IMAGE_FONT = ImageFont.truetype("fonts/consola.ttf", 18)
+
+LOGO_FOLDER = os.path.join(MEDIA_ROOT, r'uploads/%Y/%m/%d')
