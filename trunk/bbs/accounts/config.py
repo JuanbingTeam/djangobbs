@@ -13,3 +13,5 @@ VALIDATE_IMAGE_BACK_GROUND = Image.open(os.path.join(MEDIA_ROOT, "accounts/valid
 VALIDATE_IMAGE_FONT = ImageFont.truetype("fonts/consola.ttf", 18)
 
 LOGO_FOLDER = os.path.join(MEDIA_ROOT, r'uploads/%Y/%m/%d')
+
+MAX_USER_PER_EMAIL = 1

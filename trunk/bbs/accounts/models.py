@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
     # 用户名，由于User本身的用户名不允许使用中文，所以改用该名作为用户的真正登陆名称
-    nickname = models.CharField(max_length=60, unique=True, db_index=True, blank=False)
+    nickname = models.CharField(max_length=200, unique=True, db_index=True, blank=False)
     
     # 用户的头像。保存在LOGO_FOLDER目录下
     logo = models.FilePathField(path=LOGO_FOLDER, recursive=True, blank=True, default="")
@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     personal_data = models.ForeignKey(Person, null=True, db_index=True, blank=False, default="")
     
     # 用户的附加
-    extradata=models.ManyToManyField('accounts.ExtraProfileEntry', through='ExtraUserData')
+    extradata = models.ManyToManyField('accounts.ExtraProfileEntry', through='ExtraUserData')
 
     def __unicode__(self):
         return self.nickname
