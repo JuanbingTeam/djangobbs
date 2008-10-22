@@ -33,7 +33,6 @@ def authenticate(username, password):
         return user
 
 def login(request, user):
-    print request.META['REMOTE_ADDR']
     if isinstance(user, User):
         return login(request, user.get_profile())
     else:
