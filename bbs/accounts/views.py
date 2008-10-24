@@ -11,16 +11,19 @@ from django.core.mail import send_mail
 from cStringIO import StringIO
 
 import Image, ImageDraw
+from accounts.models import *
 from accounts.forms import *
 from accounts.config import *
 from accounts import tools
 
-@login_required
-def index(request):
-    return index(request, request.user.id)
-
 def index(request, id):
-    return None 
+    data = {'user' : request.user }
+    try:
+        data['profile'] = request.user.get_profile()
+    except UserProfile.DoesNotExist:
+        pass 
+
+    return render_to_response('accounts/user.html', data) 
     
 def login(request, template = 'accounts/login.html'):
     if request.session.has_key('validation') and request.method == 'POST':
