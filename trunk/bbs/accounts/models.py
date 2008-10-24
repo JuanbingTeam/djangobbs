@@ -19,10 +19,10 @@ class UserProfile(models.Model):
     nickname = models.CharField(max_length=200, unique=True, db_index=True, blank=False)
     
     # 用户的头像。保存在LOGO_FOLDER目录下
-    logo = models.FilePathField(path=LOGO_FOLDER, recursive=True, blank=True, default="")
+    logo = models.FileField(upload_to=LOGO_FOLDER, blank=True, default="")
     
     # 用户的私人信息，用户可以可以不填。
-    personal_data = models.ForeignKey(Person, null=True, db_index=True, blank=False, default="")
+    personal_data = models.ForeignKey(Person, null=True, db_index=True, blank=True, default="")
     
     # 用户的附加
     extradata = models.ManyToManyField('accounts.ExtraProfileEntry', through='ExtraUserData')
