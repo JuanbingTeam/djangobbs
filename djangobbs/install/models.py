@@ -17,33 +17,40 @@ class ConfigTree(models.Model):
     key = models.CharField(max_length=100, db_index=True)   # 键名
     content = models.TextField(blank=True, default="")      # 内容，建议保存pickle序列化的串
     
-    @static_method
+    def __unicode__(self):
+        if self.parent == None:
+            return unicode(self.key)
+        else:
+            return unicode(self.parent) + u"/" + unicode(self.key)
+
+    @staticmethod
     def get_config(path, default=None):
         path = path.split("/")
         record = None
         try:
             for i in path:
-                record = ConfigTree.objects.get(parent=record, key=i)
-            return loads(record.content)      
+                if i != "":
+                    record = ConfigTree.objects.get(parent=record, key=i)
+            return loads(str(record.content))      
         except ConfigTree.DoesNotExist:
             return default
         
-    @static_method
+    @staticmethod
     def put_config(path, data):
         path = path.split("/")
         record = None
-        try:
-            for i in path[:-1]:
-                record = ConfigTree.objects.get(parent=record, key=i)
-            try: 
-                record = ConfigTree.objects.get(parent=record, key=i)
-            except ConfigTree.DoesNotExist:
-                result = ConfigTree()
-                result.parent = record
-                result.key = path[-1]
-                record = result
-            record.content = dumps(data)
-            record.save()      
-        except ConfigTree.DoesNotExist:
-            return default    
+        for i in path:
+            if i != "":
+                try: 
+                    record = ConfigTree.objects.get(parent=record, key=i)
+                except ConfigTree.DoesNotExist:
+                    result = ConfigTree()
+                    result.parent = record
+                    result.key = i
+                    result.content = dumps(None)
+                    result.save()
+                    record = result 
+        record.content = dumps(data)
+        record.save()      
 
+admin.site.register(ConfigTree)
