@@ -13,16 +13,7 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
      
-    (r'^accounts/', include('accounts.urls')),
-    (r'^uploads/', include('uploads.urls')),
-
-    (r'^media/', include('uploads.urls')),
+    (r'^accounts/', include('djangobbs.accounts.urls')),
+    (r'^uploads/', include('djangobbs.uploads.urls')),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': r'../templates/media'}),                       
-                       
-    # (r'^addresses/(.*)', include('addresses.urls')),
-    # (r'^news/(.*)', include('accounts.newsurls')),
-    # (r'^forum/(.*)', include('articles.bbsurls')),
-    # (r'^bbs/(.*)', include('articles.bbsurls')),
-    # (r'^blog/(.*)', include('articles.blogurls')),
-    # (r'^wiki/(.*)', include('articles.wikiurls')),
 )

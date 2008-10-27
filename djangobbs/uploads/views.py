@@ -7,9 +7,10 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from uploads.models import *
+from djangobbs.uploads.models import *
+import djangobbs.uploads.tools
+
 from cStringIO import StringIO
-import uploads.tools
 
 @login_required
 def upload(request):
@@ -19,7 +20,7 @@ def upload(request):
     else:
         result = []
         for i in request.FILES.keys():
-            file = uploads.tools.save_uploaded_file(request.user, request.FILES[i])
+            file = djangobbs.uploads.tools.save_uploaded_file(request.user, request.FILES[i])
             assert (file != None)
             result.append(file)
         data['files'] = result

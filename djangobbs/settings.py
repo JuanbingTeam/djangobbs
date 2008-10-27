@@ -83,11 +83,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     
-    'addresses',
-    'articles',
-    'accounts',
-    'uploads',
-    'install',
+    'djangobbs.addresses',
+    'djangobbs.articles',
+    'djangobbs.accounts',
+    'djangobbs.uploads',
+    'djangobbs.install',
 )
 
-AUTH_PROFILE_MODULE = 'accounts.userprofile'
+AUTH_PROFILE_MODULE = 'djangobbs.accounts.userprofile'

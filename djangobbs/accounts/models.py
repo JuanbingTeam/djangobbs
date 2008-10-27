@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.utils.translation import ugettext as _T
 
-from addresses.models import Person
-from accounts.config import LOGO_FOLDER
+from djangobbs.addresses.models import Person
+from djangobbs.accounts.config import LOGO_FOLDER
 from cPickle import dumps
 
 class UserProfile(models.Model):
