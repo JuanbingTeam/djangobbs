@@ -51,16 +51,19 @@ def logout(request, template = 'accounts/logout.html'):
     return render_to_response(template, request)
 
 def register(request, autoActive=True):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            password = User.objects.make_random_password(22)
-            user = User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'], password)
-            sendActiveMail(user, password)
-            return render_to_response('accounts/registerOK.html', {'form': form})
+    if not request.POST.has_key('accept_eula'):
+        return render_to_response('accounts/eula.html', {'request':request})
+
+    form = RegisterForm(request.POST)
+    form.code = request.session['validation']
+    request.session['validation'] = ""
+    form.hasCookie = request.session.test_cookie_worked()
+    if form.is_valid():
+        return HttpResponseRedirect(next)
     else:
         form = RegisterForm()
-    return render_to_response('accounts/register.html', {'form': form})
+    request.session.set_test_cookie()
+    return render_to_response('', {'form': form} )
 
 @login_required
 def password(request):
