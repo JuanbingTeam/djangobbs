@@ -11,10 +11,10 @@ from django.core.mail import send_mail
 from cStringIO import StringIO
 
 import Image, ImageDraw
-from accounts.models import *
-from accounts.forms import *
-from accounts.config import *
-from accounts import tools
+from djangobbs.accounts.models import *
+from djangobbs.accounts.forms import *
+from djangobbs.accounts.config import *
+from djangobbs.accounts import tools
 
 def index(request, id):
     data = {'user' : request.user }

@@ -4,7 +4,7 @@
 """处理用户上传和下载资源"""
 
 from django.conf.urls.defaults import *
-urlpatterns = patterns('uploads.views',
+urlpatterns = patterns('djangobbs.uploads.views',
     (r'^upload/$', 'upload'),                    # 上传文件
     (r'^list/(?P<id>\d+)/$', 'list_by_user'),     # 列出用户上传的所有文件
     

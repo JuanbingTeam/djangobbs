@@ -6,8 +6,8 @@ from django import forms
 from django.utils.translation import ugettext as _T
 from django.contrib.auth.models import User, check_password
 
-import accounts.tools;
-import accounts.config;
+import djangobbs.accounts.tools;
+import djangobbs.accounts.config;
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, required=True, label=_T('User Name'))
@@ -17,7 +17,7 @@ class LoginForm(forms.Form):
     validation = forms.CharField(max_length=5, label=_T('Validation Code'))
 
     def clean_username(self):
-        user = accounts.tools.finduser(self.cleaned_data['username'])
+        user = djangobbs.accounts.tools.finduser(self.cleaned_data['username'])
         if user:
             self.cleaned_data['user'] = user
             return self.cleaned_data['username']

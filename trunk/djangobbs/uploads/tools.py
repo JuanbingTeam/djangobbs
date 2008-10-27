@@ -2,9 +2,10 @@
 #coding=utf-8
 
 
-from uploads.models import *
-from uploads.config import UPLOAD_FILE_FOLDER
-from uploads.config import MAX_THUMBNAIL_SIZE
+from djangobbs.uploads.models import *
+from djangobbs.uploads.config import UPLOAD_FILE_FOLDER
+from djangobbs.uploads.config import MAX_THUMBNAIL_SIZE
+import djangobbs.uploads.exif
 
 from settings import MEDIA_ROOT
 from md5 import md5
@@ -14,7 +15,6 @@ import os.path
 import time
 from datetime import datetime
 import PIL
-import uploads.exif
 import Image, ImageDraw # 需要PIL支持
 
 def get_ext_name(fullname):

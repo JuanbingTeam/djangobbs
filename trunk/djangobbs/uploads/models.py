@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 from django.utils.translation import ugettext as _T 
-from uploads.config import UPLOAD_FILE_FOLDER
+from djangobbs.uploads.config import UPLOAD_FILE_FOLDER
 
 import os.path
 

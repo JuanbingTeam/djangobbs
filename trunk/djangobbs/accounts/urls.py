@@ -4,7 +4,7 @@
 
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('accounts.views',
+urlpatterns = patterns('djangobbs.accounts.views',
     (r'^(?P<id>\d+)/$', 'index'),   # "查看用户信息"
     (r'^login/', 'login'),          # "登陆"
     (r'^logout/', 'logout'),        # "登出"
