@@ -87,6 +87,7 @@ INSTALLED_APPS = (
     'articles',
     'accounts',
     'uploads',
+    'install',
 )
 
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
