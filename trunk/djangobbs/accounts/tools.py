@@ -10,7 +10,7 @@ from django.contrib import auth
 def finduser(nickName):
     """该函数根据用户的nickname或者email来查找用户。找到的话返回该用户的profile，否则返回None"""
     try:
-        return UserProfile.objects.get(nickname = nickName)
+        return UserProfile.objects.get(nickname_iexact = nickName)
     except UserProfile.DoesNotExist:
         pass
     
